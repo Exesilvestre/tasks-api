@@ -1,0 +1,17 @@
+[tool.black]
+target-version = ["py312"]
+exclude = '''
+/(
+    \.git
+  | \.mypy_cache
+  | \.pytest_cache
+  | env
+  | __pycache__
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+skip = ["env", "__pycache__"]
