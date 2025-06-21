@@ -27,19 +27,24 @@ class TaskListRepository(TaskListInterface):
         self.session.refresh(db_task_list)
         return TaskListEntity.model_validate(db_task_list, from_attributes=True)
 
-    def update(self, list_id: int, task_list: TaskListEntity) -> TaskListEntity:
+    def update(self, list_id: int, task_list: TaskListEntity) -> Optional[TaskListEntity]:
         db_task_list = self.session.query(TaskListModel).filter_by(id=list_id).first()
         if not db_task_list:
-            raise Exception("Task list not found")
+            return None
 
-        db_task_list.name = task_list.name
-        db_task_list.description = task_list.description
+        if task_list.name:
+            db_task_list.name = task_list.name
+        if task_list.description is not None:
+            db_task_list.description = task_list.description
+
         self.session.commit()
         self.session.refresh(db_task_list)
         return TaskListEntity.model_validate(db_task_list, from_attributes=True)
 
-    def delete(self, list_id: int) -> None:
+    def delete(self, list_id: int) -> bool:
         db_task_list = self.session.query(TaskListModel).filter_by(id=list_id).first()
         if db_task_list:
             self.session.delete(db_task_list)
             self.session.commit()
+            return True
+        return False

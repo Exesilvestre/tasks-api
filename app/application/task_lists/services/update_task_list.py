@@ -1,19 +1,29 @@
-from typing import Optional
 from app.domain.task_lists.interface import TaskListInterface
 from app.domain.task_lists.entities import TaskListEntity
-from app.application.task_lists.dtos.create_task_list_dto import CreateTaskListDTO, CreateTaskListResponseDTO
+from app.application.task_lists.dtos.update_task_list_dto import UpdateTaskListDTO, UpdateTaskListResponseDTO
+from app.application.task_lists.exceptions.exceptions import TaskListNotFoundException, TaskListAlreadyExistsException
 
 
 class UpdateTaskListService:
     def __init__(self, repository: TaskListInterface):
         self.repository = repository
 
-    def execute(self, list_id: int, dto: CreateTaskListDTO) -> Optional[CreateTaskListResponseDTO]:
+    def execute(self, list_id: int, dto: UpdateTaskListDTO) -> UpdateTaskListResponseDTO:
+        # Verificar si existe el ID
+        existing = self.repository.get_by_id(list_id)
+        if not existing:
+            raise TaskListNotFoundException(list_id)
+
+        # Verify if the new name already exists in another list
+        if dto.name:
+            all_lists = self.repository.get_all()
+            if any(list.name == dto.name and list.id != list_id for list in all_lists):
+                raise TaskListAlreadyExistsException(dto.name)
+
         entity = TaskListEntity(
             name=dto.name,
             description=dto.description
         )
+
         updated_entity = self.repository.update(list_id, entity)
-        if not updated_entity:
-            return None
-        return CreateTaskListResponseDTO.from_entity(updated_entity)
+        return UpdateTaskListResponseDTO.from_entity(updated_entity)
