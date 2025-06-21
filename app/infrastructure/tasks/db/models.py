@@ -7,10 +7,6 @@ from app.core.priority import TaskPriority
 from app.infrastructure.db.base import Base
 
 
-if TYPE_CHECKING:
-    from app.infrastructure.task_lists.db.models import TaskListModel
-
-
 class TaskModel(Base):
     __tablename__ = "tasks"
 
@@ -20,4 +16,4 @@ class TaskModel(Base):
     priority: Mapped[TaskPriority] = mapped_column(SQLEnum(TaskPriority), default=TaskPriority.medium, nullable=False)
     percentage_finalized: Mapped[float] = mapped_column(Float, default=0.0, nullable=False)
     task_list_id: Mapped[int] = mapped_column(ForeignKey("task_lists.id"), nullable=False)
-    task_list: Mapped["TaskListModel"] = relationship("TaskListModel", back_populates="tasks")
+    task_list: Mapped["TaskListModel"] = relationship("TaskListModel", back_populates="tasks")  # type: ignore

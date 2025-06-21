@@ -3,11 +3,8 @@ from typing import Optional, TYPE_CHECKING
 from sqlalchemy import DateTime, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
-
 from app.infrastructure.db.base import Base
-
-if TYPE_CHECKING:
-    from app.infrastructure.tasks.db.models import TaskModel
+from app.infrastructure.tasks.db.models import TaskModel
 
 
 class TaskListModel(Base):
@@ -22,5 +19,6 @@ class TaskListModel(Base):
     tasks: Mapped[list["TaskModel"]] = relationship(
         "TaskModel",
         back_populates="task_list",
-        cascade="all, delete-orphan"
+        cascade="all, delete-orphan",
+        lazy="select"
     )
