@@ -10,12 +10,7 @@ class TaskRepository(TaskInterface):
         self.session = session
 
     def get_all_by_list(self, list_id: int) -> List[TaskEntity]:
-        tasks = (
-            self.session
-            .query(TaskModel)
-            .filter_by(task_list_id=list_id)
-            .all()
-        )
+        tasks = self.session.query(TaskModel).filter_by(task_list_id=list_id).all()
         return [TaskEntity.model_validate(task, from_attributes=True) for task in tasks]
 
     def create(self, task: TaskEntity) -> TaskEntity:
@@ -25,7 +20,7 @@ class TaskRepository(TaskInterface):
             priority=task.priority,
             status=task.status,
             percentage_finalized=task.percentage_finalized,
-            task_list_id=task.task_list_id
+            task_list_id=task.task_list_id,
         )
         self.session.add(db_task)
         self.session.commit()

@@ -1,6 +1,9 @@
 from app.application.tasks.dtos.task_dto import TaskCreateDTO, TaskResponseDTO
 from app.application.task_lists.exceptions.exceptions import TaskListNotFoundException
-from app.application.tasks.exceptions.excepcions import InvalidPercentageException, TaskAlreadyExistsException
+from app.application.tasks.exceptions.excepcions import (
+    InvalidPercentageException,
+    TaskAlreadyExistsException,
+)
 from app.application.tasks.utils import validate_priority, validate_status
 from app.domain.core.priority import TaskPriority
 from app.domain.core.status import TaskStatus
@@ -19,10 +22,20 @@ class CreateTaskService:
         if not task_list:
             raise TaskListNotFoundException(list_id)
 
-        priority = validate_priority(dto.priority, TaskPriority) if dto.priority else TaskPriority.medium
-        status = validate_status(dto.status, TaskStatus) if dto.status else TaskStatus.pending
+        priority = (
+            validate_priority(dto.priority, TaskPriority)
+            if dto.priority
+            else TaskPriority.medium
+        )
+        status = (
+            validate_status(dto.status, TaskStatus)
+            if dto.status
+            else TaskStatus.pending
+        )
 
-        if not isinstance(dto.percentage_finalized, float) or not (0.0 <= dto.percentage_finalized <= 1.0):
+        if not isinstance(dto.percentage_finalized, float) or not (
+            0.0 <= dto.percentage_finalized <= 1.0
+        ):
             raise InvalidPercentageException(dto.percentage_finalized)
 
         existing_tasks = self.task_repo.get_all_by_list(list_id)
@@ -36,7 +49,7 @@ class CreateTaskService:
             status=status,
             priority=priority,
             percentage_finalized=dto.percentage_finalized,
-            task_list_id=list_id
+            task_list_id=list_id,
         )
 
         created = self.task_repo.create(task_entity)

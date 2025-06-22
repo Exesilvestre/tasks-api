@@ -1,6 +1,8 @@
 class InvalidPriorityException(Exception):
     def __init__(self, value: str):
-        self.message = f"Invalid priority: '{value}'. Must be one of ['low', 'medium', 'high']."
+        self.message = (
+            f"Invalid priority: '{value}'. Must be one of ['low', 'medium', 'high']."
+        )
         super().__init__(self.message)
 
 
