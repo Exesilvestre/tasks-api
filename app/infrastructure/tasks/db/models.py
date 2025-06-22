@@ -1,9 +1,9 @@
 import datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 from sqlalchemy import Float, ForeignKey, Integer, String, Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from app.core.status import TaskStatus
-from app.core.priority import TaskPriority
+from app.domain.core.status import TaskStatus
+from app.domain.core.priority import TaskPriority
 from app.infrastructure.db.base import Base
 
 
@@ -12,6 +12,7 @@ class TaskModel(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String(length=80), nullable=False)
+    description: Mapped[Optional[str]] = mapped_column(String(length=255), nullable=True)
     status: Mapped[TaskStatus] = mapped_column(SQLEnum(TaskStatus), default=TaskStatus.pending, nullable=False)
     priority: Mapped[TaskPriority] = mapped_column(SQLEnum(TaskPriority), default=TaskPriority.medium, nullable=False)
     percentage_finalized: Mapped[float] = mapped_column(Float, default=0.0, nullable=False)

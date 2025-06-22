@@ -10,8 +10,8 @@ class UpdateTaskListService:
 
     def execute(self, list_id: int, dto: UpdateTaskListDTO) -> UpdateTaskListResponseDTO:
         # Verificar si existe el ID
-        existing = self.repository.get_by_id(list_id)
-        if not existing:
+        db_list = self.repository.get_by_id(list_id)
+        if not db_list:
             raise TaskListNotFoundException(list_id)
 
         # Verify if the new name already exists in another list
@@ -22,7 +22,7 @@ class UpdateTaskListService:
 
         entity = TaskListEntity(
             name=dto.name,
-            description=dto.description
+            description=dto.description if dto.description else db_list.description
         )
 
         updated_entity = self.repository.update(list_id, entity)
