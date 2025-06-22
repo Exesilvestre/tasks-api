@@ -13,5 +13,3 @@
   - `F401` (imported but unused): We ignore this in some files where imports are required for side effects (like Alembic or FastAPI routers).
   - `F403` (from module import *): Ignored where necessary, for example, when importing all routes for simplicity in `__init__.py`.
 
-
-## Entity-Relation Diagram
