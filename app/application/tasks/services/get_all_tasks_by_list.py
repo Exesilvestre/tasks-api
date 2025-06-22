@@ -1,7 +1,10 @@
 from typing import Optional
 from app.application.task_lists.exceptions.exceptions import TaskListNotFoundException
 from app.application.tasks.utils import validate_priority, validate_status
-from app.application.tasks.exceptions.excepcions import InvalidPriorityException, InvalidStatusException
+from app.application.tasks.exceptions.excepcions import (
+    InvalidPriorityException,
+    InvalidStatusException,
+)
 from app.domain.task_lists.interface import TaskListInterface
 from app.domain.tasks.entities import TaskEntity
 from app.domain.tasks.interface import TaskInterface
@@ -45,7 +48,8 @@ class GetAllTasksByListService:
         total = len(tasks)
         avg_completion = (
             round(sum(t.percentage_finalized for t in tasks) / total, 2)
-            if total > 0 else 0.0
+            if total > 0
+            else 0.0
         )
 
         return tasks, avg_completion

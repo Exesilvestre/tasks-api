@@ -2,7 +2,10 @@ from app.domain.tasks.interface import TaskInterface
 from app.domain.task_lists.interface import TaskListInterface
 from app.application.tasks.dtos.task_dto import TaskStatusUpdateDTO, TaskResponseDTO
 from app.application.task_lists.exceptions.exceptions import TaskListNotFoundException
-from app.application.tasks.exceptions.excepcions import TaskNotFoundException, InvalidStatusException
+from app.application.tasks.exceptions.excepcions import (
+    TaskNotFoundException,
+    InvalidStatusException,
+)
 from app.application.tasks.utils import validate_status
 from app.domain.core.status import TaskStatus
 
@@ -12,7 +15,9 @@ class UpdateTaskStatusService:
         self.task_repo = task_repo
         self.list_repo = list_repo
 
-    def execute(self, list_id: int, task_id: int, dto: TaskStatusUpdateDTO) -> TaskResponseDTO:
+    def execute(
+        self, list_id: int, task_id: int, dto: TaskStatusUpdateDTO
+    ) -> TaskResponseDTO:
         task_list = self.list_repo.get_by_id(list_id)
         if not task_list:
             raise TaskListNotFoundException(list_id)

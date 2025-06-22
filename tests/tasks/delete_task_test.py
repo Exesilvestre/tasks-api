@@ -25,7 +25,7 @@ def test_delete_task_success(db_session):
         priority=TaskPriority.medium,
         status=TaskStatus.pending,
         percentage_finalized=0.0,
-        task_list_id=created_list.id
+        task_list_id=created_list.id,
     )
     created_task = task_repo.create(task_entity)
 
