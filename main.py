@@ -1,3 +1,4 @@
+from fastapi import FastAPI
 from app.infrastructure.tasks.api.routes import router as tasks_router
 from app.infrastructure.task_lists.api.routes import router as lists_router
 
