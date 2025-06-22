@@ -11,23 +11,31 @@ class TaskListRepository(TaskListInterface):
 
     def get_by_id(self, list_id: int) -> Optional[TaskListEntity]:
         task_list = self.session.query(TaskListModel).filter_by(id=list_id).first()
-        return TaskListEntity.model_validate(task_list, from_attributes=True) if task_list else None
+        return (
+            TaskListEntity.model_validate(task_list, from_attributes=True)
+            if task_list
+            else None
+        )
 
     def get_all(self) -> List[TaskListEntity]:
         task_lists = self.session.query(TaskListModel).all()
-        return [TaskListEntity.model_validate(list, from_attributes=True) for list in task_lists]
+        return [
+            TaskListEntity.model_validate(list, from_attributes=True)
+            for list in task_lists
+        ]
 
     def create(self, task_list: TaskListEntity) -> TaskListEntity:
         db_task_list = TaskListModel(
-            name=task_list.name,
-            description=task_list.description
+            name=task_list.name, description=task_list.description
         )
         self.session.add(db_task_list)
         self.session.commit()
         self.session.refresh(db_task_list)
         return TaskListEntity.model_validate(db_task_list, from_attributes=True)
 
-    def update(self, list_id: int, task_list: TaskListEntity) -> Optional[TaskListEntity]:
+    def update(
+        self, list_id: int, task_list: TaskListEntity
+    ) -> Optional[TaskListEntity]:
         db_task_list = self.session.query(TaskListModel).filter_by(id=list_id).first()
         if not db_task_list:
             return None

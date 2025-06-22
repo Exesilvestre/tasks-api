@@ -13,7 +13,7 @@ from app.application.tasks.exceptions.excepcions import (
     TaskNotFoundException,
     InvalidPriorityException,
     InvalidStatusException,
-    InvalidPercentageException
+    InvalidPercentageException,
 )
 
 
@@ -29,7 +29,10 @@ def map_exception_to_http(e: Exception) -> HTTPException:
     # Tasks
     if isinstance(e, TaskNotFoundException):
         return HTTPException(status_code=404, detail=str(e))
-    if isinstance(e, (InvalidPriorityException, InvalidStatusException, InvalidPercentageException)):
+    if isinstance(
+        e,
+        (InvalidPriorityException, InvalidStatusException, InvalidPercentageException),
+    ):
         return HTTPException(status_code=400, detail=str(e))
 
     # unhandled error

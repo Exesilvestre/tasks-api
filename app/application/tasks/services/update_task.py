@@ -18,7 +18,9 @@ class UpdateTaskService:
         self.task_repo = task_repo
         self.list_repo = list_repo
 
-    def execute(self, task_list_id: int, task_id: int, dto: TaskUpdateDTO) -> TaskResponseDTO:
+    def execute(
+        self, task_list_id: int, task_id: int, dto: TaskUpdateDTO
+    ) -> TaskResponseDTO:
         task_list = self.list_repo.get_by_id(task_list_id)
         if not task_list:
             raise TaskListNotFoundException(task_list_id)
@@ -33,9 +35,17 @@ class UpdateTaskService:
                 raise TaskAlreadyExistsException(dto.name)
 
         status = validate_status(dto.status, TaskStatus) if dto.status else task.status
-        priority = validate_priority(dto.priority, TaskPriority) if dto.priority else task.priority
+        priority = (
+            validate_priority(dto.priority, TaskPriority)
+            if dto.priority
+            else task.priority
+        )
 
-        percentage = dto.percentage_finalized if dto.percentage_finalized is not None else task.percentage_finalized
+        percentage = (
+            dto.percentage_finalized
+            if dto.percentage_finalized is not None
+            else task.percentage_finalized
+        )
         if not isinstance(percentage, float) or not (0.0 <= percentage <= 1.0):
             raise InvalidPercentageException(percentage)
 
@@ -46,7 +56,7 @@ class UpdateTaskService:
             status=status,
             priority=priority,
             percentage_finalized=percentage,
-            task_list_id=task_list_id
+            task_list_id=task_list_id,
         )
 
         updated = self.task_repo.update(task_id, updated_entity)

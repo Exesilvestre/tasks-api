@@ -1,6 +1,9 @@
 from typing import Type
 from enum import Enum
-from app.application.tasks.exceptions.excepcions import InvalidStatusException, InvalidPriorityException
+from app.application.tasks.exceptions.excepcions import (
+    InvalidStatusException,
+    InvalidPriorityException,
+)
 
 
 def validate_status(value: str, enum_type: Type[Enum]) -> Enum:

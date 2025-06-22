@@ -20,7 +20,9 @@ class SessionManager:
     @classmethod
     def initialize(cls):
         if cls._engine is None:
-            cls._engine = create_engine(settings.settings.DATABASE_URL, poolclass=NullPool, echo=False)
+            cls._engine = create_engine(
+                settings.settings.DATABASE_URL, poolclass=NullPool, echo=False
+            )
             cls._SessionLocal = sessionmaker(bind=cls._engine)
 
     @classmethod

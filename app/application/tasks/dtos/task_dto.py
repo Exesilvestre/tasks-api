@@ -27,7 +27,7 @@ class TaskResponseDTO(BaseModel):
             description=entity.description,
             priority=entity.priority,
             status=entity.status,
-            percentage_finalized=entity.percentage_finalized
+            percentage_finalized=entity.percentage_finalized,
         )
 
 

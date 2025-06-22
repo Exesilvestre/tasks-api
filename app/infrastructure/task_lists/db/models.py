@@ -12,13 +12,17 @@ class TaskListModel(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String(length=80), nullable=False)
-    description: Mapped[Optional[str]] = mapped_column(String(length=255), nullable=True)
+    description: Mapped[Optional[str]] = mapped_column(
+        String(length=255), nullable=True
+    )
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
+    )
 
     tasks: Mapped[list["TaskModel"]] = relationship(
         "TaskModel",
         back_populates="task_list",
         cascade="all, delete-orphan",
-        lazy="select"
+        lazy="select",
     )
