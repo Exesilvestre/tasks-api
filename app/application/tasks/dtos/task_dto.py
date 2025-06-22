@@ -1,6 +1,5 @@
-from pydantic import BaseModel
-from typing import Optional
-from datetime import datetime
+from typing import List, Optional
+from pydantic import BaseModel, Field
 
 
 class TaskCreateDTO(BaseModel):
@@ -37,3 +36,12 @@ class TaskUpdateDTO(BaseModel):
     status: Optional[str] = None
     priority: Optional[str] = None
     percentage_finalized: Optional[float] = None
+
+
+class TaskStatusUpdateDTO(BaseModel):
+    status: str = Field(..., example="done")
+
+
+class TaskListWithCompletionDTO(BaseModel):
+    tasks: List[TaskResponseDTO]
+    completion: float

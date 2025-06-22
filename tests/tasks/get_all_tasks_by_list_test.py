@@ -1,6 +1,8 @@
 import pytest
 from app.application.task_lists.exceptions.exceptions import TaskListNotFoundException
-from app.application.tasks.services.get_all_tasks_by_list import GetAllTasksByListService
+from app.application.tasks.services.get_all_tasks_by_list import (
+    GetAllTasksByListService,
+)
 from app.infrastructure.tasks.db.repository import TaskRepository
 from app.infrastructure.task_lists.db.repository import TaskListRepository
 from app.domain.task_lists.entities import TaskListEntity
@@ -15,7 +17,9 @@ def test_get_all_tasks_by_list_success(db_session):
     service = GetAllTasksByListService(task_repo, list_repo)
 
     # Crear lista
-    created_list = list_repo.create(TaskListEntity(name="Work", description="Work tasks"))
+    created_list = list_repo.create(
+        TaskListEntity(name="Work", description="Work tasks")
+    )
 
     # Crear tareas
     task1 = TaskEntity(
@@ -24,7 +28,7 @@ def test_get_all_tasks_by_list_success(db_session):
         priority=TaskPriority.high,
         status=TaskStatus.pending,
         percentage_finalized=0.0,
-        task_list_id=created_list.id
+        task_list_id=created_list.id,
     )
     task2 = TaskEntity(
         name="Task 2",
@@ -32,7 +36,7 @@ def test_get_all_tasks_by_list_success(db_session):
         priority=TaskPriority.low,
         status=TaskStatus.done,
         percentage_finalized=1.0,
-        task_list_id=created_list.id
+        task_list_id=created_list.id,
     )
     task_repo.create(task1)
     task_repo.create(task2)

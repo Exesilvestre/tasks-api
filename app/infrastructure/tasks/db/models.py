@@ -12,9 +12,19 @@ class TaskModel(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String(length=80), nullable=False)
-    description: Mapped[Optional[str]] = mapped_column(String(length=255), nullable=True)
-    status: Mapped[TaskStatus] = mapped_column(SQLEnum(TaskStatus), default=TaskStatus.pending, nullable=False)
-    priority: Mapped[TaskPriority] = mapped_column(SQLEnum(TaskPriority), default=TaskPriority.medium, nullable=False)
-    percentage_finalized: Mapped[float] = mapped_column(Float, default=0.0, nullable=False)
-    task_list_id: Mapped[int] = mapped_column(ForeignKey("task_lists.id"), nullable=False)
+    description: Mapped[Optional[str]] = mapped_column(
+        String(length=255), nullable=True
+    )
+    status: Mapped[TaskStatus] = mapped_column(
+        SQLEnum(TaskStatus), default=TaskStatus.pending, nullable=False
+    )
+    priority: Mapped[TaskPriority] = mapped_column(
+        SQLEnum(TaskPriority), default=TaskPriority.medium, nullable=False
+    )
+    percentage_finalized: Mapped[float] = mapped_column(
+        Float, default=0.0, nullable=False
+    )
+    task_list_id: Mapped[int] = mapped_column(
+        ForeignKey("task_lists.id"), nullable=False
+    )
     task_list: Mapped["TaskListModel"] = relationship("TaskListModel", back_populates="tasks")  # type: ignore

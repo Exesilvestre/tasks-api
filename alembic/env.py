@@ -20,7 +20,11 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 config = context.config
 is_testing = os.getenv("TESTING", "false").lower() == "true"
 
-database_url = settings.settings.TEST_DATABASE_URL if is_testing else settings.settings.DATABASE_URL
+database_url = (
+    settings.settings.TEST_DATABASE_URL
+    if is_testing
+    else settings.settings.DATABASE_URL
+)
 config.set_main_option("sqlalchemy.url", database_url)
 
 # Interpret the config file for Python logging.

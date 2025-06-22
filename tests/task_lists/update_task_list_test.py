@@ -40,7 +40,9 @@ def test_update_task_list_duplicate_name_raises_exception(db_session):
     update_service = UpdateTaskListService(repo)
 
     create_service.execute(CreateTaskListDTO(name="home", description="home tasks"))
-    second = create_service.execute(CreateTaskListDTO(name="work", description="work tasks"))
+    second = create_service.execute(
+        CreateTaskListDTO(name="work", description="work tasks")
+    )
 
     update_dto = UpdateTaskListDTO(name="home", description="Desc duplicada")
     with pytest.raises(TaskListAlreadyExistsException):

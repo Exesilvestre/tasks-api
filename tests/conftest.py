@@ -1,4 +1,3 @@
-
 import os
 import pytest
 import subprocess
@@ -22,7 +21,9 @@ TestingSessionLocal = sessionmaker(bind=engine)
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_database():
     # Crear base de datos de test desde postgres
-    admin_engine = create_engine(TEST_DATABASE_URL.rsplit("/", 1)[0] + "/postgres", isolation_level="AUTOCOMMIT")
+    admin_engine = create_engine(
+        TEST_DATABASE_URL.rsplit("/", 1)[0] + "/postgres", isolation_level="AUTOCOMMIT"
+    )
     db_name = TEST_DATABASE_URL.rsplit("/", 1)[1]
 
     with admin_engine.connect() as conn:
