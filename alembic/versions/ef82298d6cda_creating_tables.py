@@ -1,8 +1,8 @@
-"""Initial create task and task_list tables
+"""creating tables
 
-Revision ID: 2658014b4781
+Revision ID: ef82298d6cda
 Revises: 
-Create Date: 2025-06-21 13:12:01.115728
+Create Date: 2025-06-22 16:22:46.921389
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '2658014b4781'
+revision: str = 'ef82298d6cda'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -33,8 +33,9 @@ def upgrade() -> None:
     op.create_table('tasks',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=80), nullable=False),
+    sa.Column('description', sa.String(length=255), nullable=True),
     sa.Column('status', sa.Enum('pending', 'in_progress', 'done', name='taskstatus'), nullable=False),
-    sa.Column('priority', sa.Enum('low', 'medium', 'high', name='priority'), nullable=False),
+    sa.Column('priority', sa.Enum('low', 'medium', 'high', name='taskpriority'), nullable=False),
     sa.Column('percentage_finalized', sa.Float(), nullable=False),
     sa.Column('task_list_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['task_list_id'], ['task_lists.id'], ),
