@@ -13,3 +13,9 @@
   - `F401` (imported but unused): We ignore this in some files where imports are required for side effects (like Alembic or FastAPI routers).
   - `F403` (from module import *): Ignored where necessary, for example, when importing all routes for simplicity in `__init__.py`.
 
+## Pendings and improvements
+I will add a User table and protect the endpoints using authentication with tokens and login endpoints. I’ve already implemented integration tests to ensure that the components work correctly together. While I still need to develop more unit tests in the future, I prioritized integration tests due to time constraints, as they provide broader coverage of the application.
+
+Additionally, it would be more efficient to define fixtures at the beginning of the test suite and reuse that data across tests, instead of creating new entities within each test.
+
+For security, I plan to follow the approach described in the official FastAPI documentation on OAuth2 with Password (and hashing), Bearer with JWT tokens. This includes hashed passwords, access tokens, and refresh tokens. As an improvement, adding a middleware to validate the user's identity on each request would be a good practice to strengthen security.
