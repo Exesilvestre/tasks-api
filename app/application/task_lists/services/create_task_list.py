@@ -15,7 +15,6 @@ class CreateTaskListService:
         if not dto.name.strip():
             raise TaskListNameEmptyException()
 
-        # validate that the name is unique
         existing_lists = self.repository.get_all()
         if any(list.name == dto.name for list in existing_lists):
             raise TaskListAlreadyExistsException(dto.name)

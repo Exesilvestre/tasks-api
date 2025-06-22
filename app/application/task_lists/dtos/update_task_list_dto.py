@@ -4,14 +4,14 @@ from pydantic import BaseModel
 
 
 class UpdateTaskListDTO(BaseModel):
-    name: Optional[str]
-    description: Optional[str]
+    name: str
+    description: Optional[str] = None
 
 
 class UpdateTaskListResponseDTO(BaseModel):
-    name: Optional[str]
+    name: str
     description: Optional[str]
-    updated_at: Optional[datetime]
+    updated_at: datetime
 
     @classmethod
     def from_entity(cls, entity):
